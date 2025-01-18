@@ -7,9 +7,9 @@ import { createGallery } from './js/render-functions.js';
 
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
-const searchForm = document.querySelector('.image-search-form')
+const searchForm = document.querySelector('.image-search-form');
 
-let query
+let query;
 
 const simpleLightBox = new SimpleLightbox('.gallery li a', {
   captionsData: 'alt',
@@ -33,14 +33,19 @@ searchForm.addEventListener('submit', e => {
       if (hits.length) {
         gallery.innerHTML = createGallery(hits);
         simpleLightBox.refresh();
+      } else {
+        iziToast.warning({
+          message:
+            'Sorry, there are no images matching your search query. Please try again!',
+          position: 'topRight',
+        });
       }
-      else {
-        iziToast.warning({ message: 'Sorry, there are no images matching your search query. Please try again!', position: 'topRight' });
-      }
-
     })
-    .catch((error) => {
-      iziToast.error({ message: 'There are some errors with loading pictures.', position: 'topRight' });
+    .catch(error => {
+      iziToast.error({
+        message: 'There are some errors with loading pictures.',
+        position: 'topRight',
+      });
       console.error(error);
     })
     .finally(() => {
